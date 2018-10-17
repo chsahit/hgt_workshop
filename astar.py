@@ -10,6 +10,7 @@ import time
 import traj_utils
 from PriorityQueue import PriorityQueue
 from traj_utils import Vertex, A
+from setpos import setpos
 
 def h(start, goal):
     return ((start[0] - goal[0])**2 + (start[1] - goal[1])**2)**0.5
@@ -31,10 +32,10 @@ def search(start, obstacles, goal):
         for action in A:
             succ = (round(curr.coords[0] + action[0], 1), round(curr.coords[1] + action[1], 1))
             if ((not succ in visited) and (not succ in obstacles)):
-                succ_vertex = Vertex(succ, curr.cost + 0.1, curr)
+                cost = traj_utils.l2(succ, curr.coords)
+                succ_vertex = Vertex(succ, cost, curr)
                 heur = h(succ, goal)
                 pq.push(succ_vertex, succ_vertex.cost + heur)
-
 
 
 init_pt = np.array([[-1.0], [1.0], [0]])
@@ -43,11 +44,12 @@ init_pt = np.array([[-1.0], [1.0], [0]])
 N = 1
 
 sim = robotarium.Robotarium(number_of_agents=N, show_figure=True, save_data=True, update_time=1)
-obstacles, goal = traj_utils.draw_maze(sim, (init_pt[0][0], init_pt[1][0]), 100)
+obstacles, goal = traj_utils.draw_maze(sim, (init_pt[0][0], init_pt[1][0]), 200)
 solution = search((init_pt[0][0], init_pt[1][0]), obstacles, goal)
 print(solution)
 
 # Create barrier certificates to avoid collision
+uni_barrier_cert = create_unicycle_barrier_certificate(N, safety_radius=0.05)
 si_barrier_cert = create_single_integrator_barrier_certificate(N)
 
 # define x initially
@@ -56,27 +58,16 @@ x = sim.get_poses()
 sim.step()
 
 for coordinate in solution:
-    print(coordinate)
     goal_points = traj_utils.tuple_to_pt(coordinate)
-    # While the number of robots at the required poses is less
-    # than N...
-    while(np.size(at_pose(x, goal_points, rotation_error=5)) != N):
+    setpos(sim, x, goal_points, uni_barrier_cert, N)
+    time.sleep(1.0)
+    print(coordinate)
+goal_pt = traj_utils.tuple_to_pt(goal)
+setpos(sim, x, goal_pt, si_barrier_cert, N)
+time.sleep(1.0)
 
-        # Get poses of agents
-        x = sim.get_poses()
-        x_si = x[:2, :]
-
-        # Create single-integrator control inputs
-        dxi = single_integrator_position_controller(x_si, goal_points[:2, :], magnitude_limit=0.08)
-
-        # Create safe control inputs (i.e., no collisions)
-        dxi = si_barrier_cert(dxi, x_si)
-
-        # Set the velocities by mapping the single-integrator inputs to unciycle inputs
-        sim.set_velocities(np.arange(N), single_integrator_to_unicycle2(dxi, x))
-        # Iterate the simulation
-        sim.step()
-    time.sleep(1)
+input()
+#setpos(sim, x, traj_utils.tuple_to_pt(solution[-1]),  si_barrier_cert, N)
 # Always call this function at the end of your scripts!  It will accelerate the
 # execution of your experiment
 sim.call_at_scripts_end()

@@ -4,7 +4,7 @@ import numpy as np
 import random
 
 
-A = ((-0.1, -0.1), (-0.1, 0.1), (0.1, -0.1), (0.1, 0.1))
+A = ((0.1, 0.0), (0.0, 0.1), (-0.1, 0.0), (0.0, -0.1))
 
 class Vertex:
     def __init__(self, coords, cost, pred):
@@ -42,6 +42,7 @@ def draw_maze(sim, start, complexity):
         cell = (round(random.uniform(x_dom[0], x_dom[1]), 1), round(random.uniform(y_dom[0], y_dom[1]), 1))
         if (not cell in traj):
             blocks.append(cell)
-            sim.axes.add_patch(patches.Rectangle((cell[0] + 0.01, cell[1] + 0.01), 0.08, 0.08))
-    sim.axes.add_patch(patches.Circle(traj[-1], 0.05, color='g'))
-    return blocks, (round(traj[-1][0], 1), round(traj[-1][1], 1))
+            sim.axes.add_patch(patches.Circle(cell, 0.025))
+    goal = (round(traj[-1][0], 1), round(traj[-1][1], 1))
+    sim.axes.add_patch(patches.Circle(goal, 0.05, color='g'))
+    return blocks, goal
