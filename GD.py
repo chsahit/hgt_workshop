@@ -9,7 +9,7 @@ import numpy as np
 import time
 import utils
 
-init_pt = np.array([[-0.5], [0.25], [0]])
+init_pt = np.array([[-1.0], [1.0], [0]])
 
 def f(x):
     return x[0]**2 + x[1]**2
@@ -60,8 +60,6 @@ for i in range(max_iters):
 
     goal_point = iterate(goal_point, eta, df)
     time.sleep(0.5)
-
-print(goal_point)
 
 # Always call this function at the end of your scripts!  It will accelerate the
 # execution of your experiment
