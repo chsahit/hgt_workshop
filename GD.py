@@ -7,7 +7,7 @@ from rps.utilities.controllers import *
 
 import numpy as np
 import time
-import utils
+import gd_utils
 
 init_pt = np.array([[-1.0], [1.0], [0]])
 
@@ -33,7 +33,7 @@ si_barrier_cert = create_single_integrator_barrier_certificate(N)
 x = r.get_poses()
 r.step()
 
-utils.draw_f(r, f)
+gd_utils.draw_f(r, f)
 max_iters = 20
 goal_point = init_pt
 eta = 0.1
