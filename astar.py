@@ -62,9 +62,9 @@ for coordinate in solution:
     setpos(sim, x, goal_points, uni_barrier_cert, N)
     time.sleep(1.0)
     print(coordinate)
-goal_pt = traj_utils.tuple_to_pt(goal)
-setpos(sim, x, goal_pt, si_barrier_cert, N)
-time.sleep(1.0)
+#goal_pt = traj_utils.tuple_to_pt(goal)
+#setpos(sim, x, goal_pt, si_barrier_cert, N)
+#time.sleep(1.0)
 
 input()
 #setpos(sim, x, traj_utils.tuple_to_pt(solution[-1]),  si_barrier_cert, N)
