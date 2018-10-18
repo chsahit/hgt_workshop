@@ -38,7 +38,7 @@ def search(start, obstacles, goal):
                 pq.push(succ_vertex, succ_vertex.cost + heur)
 
 
-init_pt = np.array([[-1.0], [1.0], [0]])
+init_pt = np.array([[-1.0], [0.5], [0]])
 
 # Instantiate Robotarium object
 N = 1
