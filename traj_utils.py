@@ -5,8 +5,8 @@ import random
 import time
 
 
-A = ((0.25, 0.0), (0.0, 0.25), (-0.25, 0.0), (0.0, -0.25))
 DIM = 0.25
+A = ((0.25, 0.0), (0.0, 0.25), (-0.25, 0.0), (0.0, -0.25))
 
 class Vertex:
     def __init__(self, coords, cost, pred):
@@ -39,21 +39,17 @@ def gen_traj(x_dom, y_dom, length, start):
         traj.append(next_state)
     return traj
 
-# def truncate_floor(value, dim):
-    # value = int(1000 * value)
-    # dim = int(1000 * dim)
-    # return int(((value // dim ) * dim) / 1000)
 def discrete_x(x):
-    return (np.digitize([x], np.linspace(-1.5, 1.5, 13))[0] - 1) * 0.25 - 1.5
+    return int((x + 1.5) / DIM) * DIM - 1.5
 
 def discrete_y(y):
-    return (np.digitize([y], np.linspace(-1.0, 1.0, 9))[0] - 1) * 0.25 - 1.0
+    return int((y + 1.0) / DIM) * DIM - 1.0
 
 
 def draw_maze(sim, start, complexity):
     x_dom = (sim.boundary[0] + DIM, sim.boundary[0] + sim.boundary[2] - DIM)
     y_dom = (sim.boundary[1] + DIM, sim.boundary[1] + sim.boundary[3] - DIM)
-    traj = gen_traj(x_dom, y_dom, 1.5, start)
+    traj = gen_traj(x_dom, y_dom, 2, start)
     blocks = list()
     for i in range(complexity):
         cell = (discrete_x(random.uniform(x_dom[0], x_dom[1])), discrete_y(random.uniform(y_dom[0], y_dom[1])))
