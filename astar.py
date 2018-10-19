@@ -30,7 +30,8 @@ def search(start, obstacles, goal):
                 curr = curr.pred
             return list(reversed(solution))
         for action in A:
-            succ = (round(curr.coords[0] + action[0], 1), round(curr.coords[1] + action[1], 1))
+            # succ = (round(curr.coords[0] + action[0], 1), round(curr.coords[1] + action[1], 1))
+            succ = traj_utils.discrete_x(curr.coords[0] + action[0]), traj_utils.discrete_y(curr.coords[1] + action[1])
             if ((not succ in visited) and (not succ in obstacles)):
                 cost = traj_utils.l2(succ, curr.coords)
                 succ_vertex = Vertex(succ, cost, curr)
@@ -44,7 +45,7 @@ init_pt = np.array([[-1.0], [0.5], [0]])
 N = 1
 
 sim = robotarium.Robotarium(number_of_agents=N, show_figure=True, save_data=True, update_time=1.0)
-obstacles, goal = traj_utils.draw_maze(sim, (init_pt[0][0], init_pt[1][0]), 200)
+obstacles, goal = traj_utils.draw_maze(sim, (init_pt[0][0], init_pt[1][0]), 16)
 solution = search((init_pt[0][0], init_pt[1][0]), obstacles, goal)
 print(solution)
 
