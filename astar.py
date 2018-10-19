@@ -34,7 +34,7 @@ def search(start, obstacles, goal):
             succ = traj_utils.discrete_x(curr.coords[0] + action[0]), traj_utils.discrete_y(curr.coords[1] + action[1])
             if ((not succ in visited) and (not succ in obstacles)):
                 cost = traj_utils.l2(succ, curr.coords)
-                succ_vertex = Vertex(succ, cost, curr)
+                succ_vertex = Vertex(succ, cost + curr.cost, curr)
                 heur = h(succ, goal)
                 pq.push(succ_vertex, succ_vertex.cost + heur)
 
