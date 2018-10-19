@@ -42,8 +42,11 @@ eta = 0.1
 
 #setpos(r, x, goal_point, si_barrier_cert, N)
 goal_point = np.array([[0.0], [0.0], [0.0]])
+setpos(r, x, goal_point, si_barrier_cert, N)
+r.step()
+r.figure.canvas.flush_events()
 vel = iterate(x, eta, df)
-while np.linalg.norm(vel) >= 0.01:
+while True: #np.linalg.norm(vel) >= 0.01:
 
     # Get poses of agents
     x = r.get_poses()
@@ -62,7 +65,9 @@ while np.linalg.norm(vel) >= 0.01:
     r.step()
 
     vel = iterate(x, eta, df)
+    print(vel)
     time.sleep(0.01)
+time.sleep(10)
 # Always call this function at the end of your scripts!  It will accelerate the
 # execution of your experiment
 r.call_at_scripts_end()
