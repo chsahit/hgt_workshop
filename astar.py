@@ -45,7 +45,7 @@ init_pt = np.array([[-1.0], [0.5], [0]])
 N = 1
 
 sim = robotarium.Robotarium(number_of_agents=N, show_figure=True, save_data=True, update_time=1.0)
-obstacles, goal = traj_utils.draw_maze(sim, (init_pt[0][0], init_pt[1][0]), 16)
+obstacles, goal = traj_utils.draw_maze(sim, (init_pt[0][0], init_pt[1][0]), 64)
 solution = search((init_pt[0][0], init_pt[1][0]), obstacles, goal)
 print(solution)
 
