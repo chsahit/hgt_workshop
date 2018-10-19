@@ -4,6 +4,7 @@ from rps.utilities.transformations import *
 from rps.utilities.barrier_certificates import *
 from rps.utilities.misc import *
 from rps.utilities.controllers import *
+from setpos import setpos
 
 import numpy as np
 import time
@@ -14,7 +15,7 @@ import time
 # Instantiate Robotarium object
 N = 2
 
-r = robotarium.Robotarium(number_of_agents=N, show_figure=True, save_data=True, update_time=1)
+r = robotarium.Robotarium(number_of_agents=N, show_figure=True, save_data=True, update_time=0.01)
 
 
 # Create barrier certificates to avoid collision
@@ -30,12 +31,12 @@ r.step()
 robot1_goal = np.array([[0.0], [0.0], [0.0]])
 robot2_goal = np.array([[-0.9], [0.9], [0.0]])
 goal_points = np.concatenate((robot1_goal, robot2_goal), axis=1)
-while(True):
+
+while(np.size(at_pose(x, goal_points, rotation_error=5)) != N):
 
     # Get poses of agents
     x = r.get_poses()
     x_si = x[:2, :]
-    robot1_goal = np.array([[
 
     # Create single-integrator control inputs
     dxi = single_integrator_position_controller(x_si, goal_points[:2, :], magnitude_limit=0.08)
@@ -44,6 +45,22 @@ while(True):
     dxi = si_barrier_cert(dxi, x_si)
 
     # Set the velocities by mapping the single-integrator inputs to unciycle inputs
+    r.set_velocities(np.arange(N), single_integrator_to_unicycle2(dxi, x))
+    # Iterate the simulation
+    r.step()
+
+while(True):
+
+    # Get poses of agents
+    x = r.get_poses()
+    x_si = x[:2, :]
+    print(x)
+    robot1_vel = np.random.uniform(-0.1, 0.1, (3, 1))
+    robot2_vel = 0.1 * np.array([[x[0, 0] - x[0, 1]], [x[1, 0] - x[1, 1]], [0]])
+    print(robot2_vel)
+    dxi = np.concatenate((robot1_vel, robot2_vel), axis=1)
+    #print(dxi)
+
     r.set_velocities(np.arange(N), single_integrator_to_unicycle2(dxi, x))
     # Iterate the simulation
     r.step()

@@ -11,7 +11,6 @@ import time
 import gd_utils
 import sys
 
-init_pt = np.array([[-0.5], [0.5], [0]])
 
 def f(x):
     return x[0]**2 - x[1]**2
@@ -37,7 +36,6 @@ r.step()
 
 gd_utils.draw_f(r, f)
 max_iters = 20
-goal_point = init_pt
 eta = 0.1
 
 #setpos(r, x, goal_point, si_barrier_cert, N)
@@ -46,7 +44,7 @@ setpos(r, x, goal_point, si_barrier_cert, N)
 r.step()
 r.figure.canvas.flush_events()
 vel = iterate(x, eta, df)
-while True: #np.linalg.norm(vel) >= 0.01:
+while np.linalg.norm(vel) >= 0.01:
 
     # Get poses of agents
     x = r.get_poses()
@@ -55,6 +53,7 @@ while True: #np.linalg.norm(vel) >= 0.01:
     # Create single-integrator control inputs
     #dxi = single_integrator_position_controller(x_si, goal_point[:2, :], magnitude_limit=0.08)
     dxi = vel[:2, :]
+    print(dxi)
 
     # Create safe control inputs (i.e., no collisions)
     #dxi = si_barrier_cert(dxi, x_si)

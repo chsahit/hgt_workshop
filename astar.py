@@ -30,7 +30,6 @@ def search(start, obstacles, goal):
                 curr = curr.pred
             return list(reversed(solution))
         for action in A:
-            # succ = (round(curr.coords[0] + action[0], 1), round(curr.coords[1] + action[1], 1))
             succ = traj_utils.discrete_x(curr.coords[0] + action[0]), traj_utils.discrete_y(curr.coords[1] + action[1])
             if ((not succ in visited) and (not succ in obstacles)):
                 cost = traj_utils.l2(succ, curr.coords)

@@ -17,7 +17,6 @@ def setpos(sim, x, goal_points, cert, N):
         #dxi = single_integrator_position_controller(x_si, goal_points[:2, :], magnitude_limit=0.08)
 
         dxu = unicycle_pose_controller(x, goal_points)
-
         # Create safe control inputs (i.e., no collisions)
         dxu = cert(dxu, x)
         #dxi = cert(dxi, x_si)
