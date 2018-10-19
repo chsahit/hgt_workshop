@@ -13,7 +13,7 @@ from traj_utils import Vertex, A
 from setpos import setpos
 
 def h(start, goal):
-    return ((start[0] - goal[0])**2 + (start[1] - goal[1])**2)**0.5
+    return abs(start[0] - goal[0]) + abs(start[1] - goal[1])
 
 def search(start, obstacles, goal):
     visited = set()
@@ -61,6 +61,7 @@ for coordinate in solution:
     goal_points = traj_utils.tuple_to_pt(coordinate)
     setpos(sim, x, goal_points, uni_barrier_cert, N)
     time.sleep(1.0)
+    sim.step()
     print(coordinate)
 #goal_pt = traj_utils.tuple_to_pt(goal)
 #setpos(sim, x, goal_pt, si_barrier_cert, N)
