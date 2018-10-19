@@ -18,5 +18,5 @@ def draw_f(sim, f, res=100):
     print(x_dom)
     print(y_dom)
     z = getpts(f, x_dom, y_dom, res)
-    sim.axes.imshow(z, extent=[x_dom[0], x_dom[1], y_dom[1], y_dom[0]], cmap="autumn")
+    sim.axes.imshow(z, extent=[x_dom[0], x_dom[1], y_dom[1], y_dom[0]], cmap="plasma")
 
