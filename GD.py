@@ -43,7 +43,7 @@ eta = 0.1
 #setpos(r, x, goal_point, si_barrier_cert, N)
 goal_point = np.array([[0.0], [0.0], [0.0]])
 vel = iterate(x, eta, df)
-while np.linalg.norm(vel >= 0.01):
+while np.linalg.norm(vel) >= 0.01:
 
     # Get poses of agents
     x = r.get_poses()
