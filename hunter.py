@@ -48,24 +48,24 @@ while(np.size(at_pose(x, goal_points, rotation_error=5)) != N):
     r.set_velocities(np.arange(N), single_integrator_to_unicycle2(dxi, x))
     # Iterate the simulation
     r.step()
-
-while(True):
+start_time = time.time()
+robot1_vel = np.random.uniform(-0.1, 0.1, size=(3, 1))
+while time.time() - start_time < 15:
 
     # Get poses of agents
     x = r.get_poses()
     x_si = x[:2, :]
-    print(x)
-    robot1_vel = np.random.uniform(-0.1, 0.1, (3, 1))
-    robot2_vel = 0.1 * np.array([[x[0, 0] - x[0, 1]], [x[1, 0] - x[1, 1]], [0]])
-    print(robot2_vel)
+    if (time.time() % 2 < 0.1):
+        robot1_vel = np.random.uniform(-0.1, 0.1, size=(3, 1))
+    robot2_vel = 0.3 * np.array([[x[0, 0] - x[0, 1]], [x[1, 0] - x[1, 1]], [0]])
     dxi = np.concatenate((robot1_vel, robot2_vel), axis=1)
     #print(dxi)
 
     r.set_velocities(np.arange(N), single_integrator_to_unicycle2(dxi, x))
+    time.sleep(0.01)
     # Iterate the simulation
     r.step()
 
-input()
 # Always call this function at the end of your scripts!  It will accelerate the
 # execution of your experiment
 r.call_at_scripts_end()

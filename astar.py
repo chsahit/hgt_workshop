@@ -68,7 +68,6 @@ for coordinate in solution:
 #setpos(sim, x, goal_pt, si_barrier_cert, N)
 #time.sleep(1.0)
 
-input()
 #setpos(sim, x, traj_utils.tuple_to_pt(solution[-1]),  si_barrier_cert, N)
 # Always call this function at the end of your scripts!  It will accelerate the
 # execution of your experiment
