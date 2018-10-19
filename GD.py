@@ -14,10 +14,10 @@ import sys
 init_pt = np.array([[-0.5], [0.5], [0]])
 
 def f(x):
-    return x[0]**2 + x[1]**2
+    return x[0]**2 - x[1]**2
 
 def df(x):
-    return np.array([[2 * x[0,0]], [2 * x[1,0]], [0]])
+    return np.array([[2 * x[0,0]], [-2 * x[1,0]], [0]])
 
 #one iteration of gradient descent
 def iterate(x, eta, df):
