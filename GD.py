@@ -13,14 +13,17 @@ import sys
 
 
 def f(x):
-    return x[0]**2 - x[1]**2
+    return x[0]**2 + x[1]**2
 
 def df(x):
-    return np.array([[2 * x[0,0]], [-2 * x[1,0]], [0]])
+    return np.array([[2 * x[0,0]], [2 * x[1,0]], [0]])
 
 #one iteration of gradient descent
 def iterate(x, eta, df):
     return -eta * df(x)
+
+def iterate_w_momentum(x, eta, df, v, mu):
+    return mu * v - eta * df(x)
 
 # Instantiate Robotarium object
 N = 1
@@ -37,9 +40,10 @@ r.step()
 gd_utils.draw_f(r, f)
 max_iters = 20
 eta = 0.1
+mu =0.01
 
 #setpos(r, x, goal_point, si_barrier_cert, N)
-goal_point = np.array([[0.0], [0.0], [0.0]])
+goal_point = np.array([[1.0], [0.0], [0.0]])
 setpos(r, x, goal_point, si_barrier_cert, N)
 r.step()
 r.figure.canvas.flush_events()
@@ -63,7 +67,7 @@ while np.linalg.norm(vel) >= 0.01:
     # Iterate the simulation
     r.step()
 
-    vel = iterate(x, eta, df)
+    vel = iterate_w_momentum(x, eta, df, vel, mu)
     print(vel)
     time.sleep(0.01)
 time.sleep(10)

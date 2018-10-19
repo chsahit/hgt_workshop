@@ -25,6 +25,5 @@ def setpos(sim, x, goal_points, cert, N):
         #sim.set_velocities(np.arange(N), single_integrator_to_unicycle2(dxi, x))
         sim.set_velocities(np.arange(N), dxu)
         # Iterate the simulation
-        print(x)
         sim.step()
 
