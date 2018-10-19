@@ -16,6 +16,8 @@ def getpts(f, x_dom, y_dom, res):
 def draw_f(sim, f, res=200):
     x_dom = (sim.boundary[0], sim.boundary[0] + sim.boundary[2])
     y_dom = (sim.boundary[1], sim.boundary[1] + sim.boundary[3])
+    print(x_dom)
+    print(y_dom)
     x, y, z = getpts(f, x_dom, y_dom, res)
     sim.axes.hexbin(x, y, C=z, cmap="plasma")
 

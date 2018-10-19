@@ -11,7 +11,7 @@ import time
 import gd_utils
 import sys
 
-init_pt = np.array([[-1.0], [1.0], [0]])
+init_pt = np.array([[-0.5], [0.5], [0]])
 
 def f(x):
     return x[0]**2 + x[1]**2
@@ -40,8 +40,7 @@ max_iters = 20
 goal_point = init_pt
 eta = 0.1
 
-setpos(r, x, goal_point, si_barrier_cert, N)
-input()
+#setpos(r, x, goal_point, si_barrier_cert, N)
 goal_point = np.array([[0.0], [0.0], [0.0]])
 vel = iterate(x, eta, df)
 while(np.size(at_pose(x, np.array([[0.0], [0.0], [0.0]]), rotation_error=5)) != 1):
