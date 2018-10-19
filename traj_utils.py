@@ -5,7 +5,8 @@ import random
 import time
 
 
-A = ((0.1, 0.0), (0.0, 0.1), (-0.1, 0.0), (0.0, -0.1))
+A = ((0.25, 0.0), (0.0, 0.25), (-0.25, 0.0), (0.0, -0.25))
+DIM = 0.25
 
 class Vertex:
     def __init__(self, coords, cost, pred):
@@ -38,19 +39,29 @@ def gen_traj(x_dom, y_dom, length, start):
         traj.append(next_state)
     return traj
 
+# def truncate_floor(value, dim):
+    # value = int(1000 * value)
+    # dim = int(1000 * dim)
+    # return int(((value // dim ) * dim) / 1000)
+def discrete_x(x):
+    return (np.digitize([x], np.linspace(-1.5, 1.5, 13))[0] - 1) * 0.25 - 1.5
+
+def discrete_y(y):
+    return (np.digitize([y], np.linspace(-1.0, 1.0, 9))[0] - 1) * 0.25 - 1.0
 
 
 def draw_maze(sim, start, complexity):
-    x_dom = (sim.boundary[0] + 0.1, sim.boundary[0] + sim.boundary[2] - 0.1)
-    y_dom = (sim.boundary[1] + 0.1, sim.boundary[1] + sim.boundary[3] - 0.1)
+    x_dom = (sim.boundary[0] + DIM, sim.boundary[0] + sim.boundary[2] - DIM)
+    y_dom = (sim.boundary[1] + DIM, sim.boundary[1] + sim.boundary[3] - DIM)
     traj = gen_traj(x_dom, y_dom, 1.5, start)
     blocks = list()
     for i in range(complexity):
-        cell = (round(random.uniform(x_dom[0], x_dom[1]), 1), round(random.uniform(y_dom[0], y_dom[1]), 1))
+        cell = (discrete_x(random.uniform(x_dom[0], x_dom[1])), discrete_y(random.uniform(y_dom[0], y_dom[1])))
         if (not cell in traj):
             blocks.append(cell)
             #sim.axes.add_patch(patches.Circle(cell, 0.025))
-            sim.axes.add_patch(patches.Rectangle((cell[0]-0.05, cell[1]-0.05), 0.1, 0.1))
-    goal = (round(traj[-1][0], 1), round(traj[-1][1], 1))
+            sim.axes.add_patch(patches.Rectangle((cell[0]-DIM/2, cell[1]-DIM/2), DIM, DIM))
+    # goal = (round(traj[-1][0], 1), round(traj[-1][1], 1))
+    goal = (discrete_x(traj[-1][0]), discrete_y(traj[-1][1]))
     sim.axes.add_patch(patches.Circle(goal, 0.05, color='g'))
     return blocks, goal
