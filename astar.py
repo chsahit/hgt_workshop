@@ -13,30 +13,13 @@ from traj_utils import Vertex, A
 from set_pose import setpos
 
 def h(start, goal):
-    return abs(start[0] - goal[0]) + abs(start[1] - goal[1])
+    pass
 
 def search(start, obstacles, goal):
     visited = set()
     start_vertex = Vertex(start, 0, None)
     OPEN = PriorityQueue()
-    OPEN.push(start_vertex, start_vertex.cost)
-    while (not OPEN.empty()):
-        curr = OPEN.pop()
-        visited.add(curr.coords)
-        if curr.coords == goal:
-            solution = list()
-            while curr != None:
-                solution.append(curr.coords)
-                curr = curr.pred
-            return list(reversed(solution))
-        for action in A:
-            succ = traj_utils.discrete_x(curr.coords[0] + action[0]), traj_utils.discrete_y(curr.coords[1] + action[1])
-            if ((not succ in visited) and (not succ in obstacles)):
-                cost = traj_utils.l2(succ, curr.coords)
-                succ_vertex = Vertex(succ, cost + curr.cost, curr)
-                heur = h(succ, goal)
-                OPEN.push(succ_vertex, succ_vertex.cost + heur)
-
+    #implement the rest!
 
 init_pt = np.array([[-1.0], [0.5], [0]])
 

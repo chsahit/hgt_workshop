@@ -59,7 +59,7 @@ while time.time() - start_time < 20:
     if (iterations % 200 == 0):
         robot1_vel = np.random.uniform(-0.1, 0.1, size=(3, 1))
         robot1_vel[2, 0] = 0.0
-    robot2_vel = 0.3 * np.array([[x[0, 0] - x[0, 1]], [x[1, 0] - x[1, 1]], [0]])
+    #robot2_vel = set this variable to something appropriate
     dxi = np.concatenate((robot1_vel, robot2_vel), axis=1)
     #print(dxi)
 
