@@ -20,10 +20,10 @@ def df(x):
 
 #one iteration of gradient descent
 def iterate(x, eta, df):
-    pass
+    return -eta * df(x)
 
 def iterate_w_momentum(x, eta, df, v, mu):
-    pass
+    return mu * v - eta * df(x)
 
 # Instantiate Robotarium object
 N = 1
@@ -66,7 +66,7 @@ while np.linalg.norm(vel) >= 0.01:
     # Iterate the simulation
     r.step()
 
-    vel = iterate(x, eta, df)
+    vel = iterate_w_momentum(x, eta, df, vel, mu)
     time.sleep(0.01)
 time.sleep(10)
 # Always call this function at the end of your scripts!  It will accelerate the
