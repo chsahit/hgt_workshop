@@ -4,7 +4,7 @@ from rps.utilities.transformations import *
 from rps.utilities.barrier_certificates import *
 from rps.utilities.misc import *
 from rps.utilities.controllers import *
-from setpos import setpos
+from set_pose import setpos
 
 import numpy as np
 import time

@@ -10,7 +10,7 @@ import time
 import traj_utils
 from PriorityQueue import PriorityQueue
 from traj_utils import Vertex, A
-from setpos import setpos
+from set_pose import setpos
 
 def h(start, goal):
     return abs(start[0] - goal[0]) + abs(start[1] - goal[1])
@@ -18,10 +18,10 @@ def h(start, goal):
 def search(start, obstacles, goal):
     visited = set()
     start_vertex = Vertex(start, 0, None)
-    pq = PriorityQueue()
-    pq.push(start_vertex, start_vertex.cost)
-    while (not pq.empty()):
-        curr = pq.pop()
+    OPEN = PriorityQueue()
+    OPEN.push(start_vertex, start_vertex.cost)
+    while (not OPEN.empty()):
+        curr = OPEN.pop()
         visited.add(curr.coords)
         if curr.coords == goal:
             solution = list()
@@ -35,7 +35,7 @@ def search(start, obstacles, goal):
                 cost = traj_utils.l2(succ, curr.coords)
                 succ_vertex = Vertex(succ, cost + curr.cost, curr)
                 heur = h(succ, goal)
-                pq.push(succ_vertex, succ_vertex.cost + heur)
+                OPEN.push(succ_vertex, succ_vertex.cost + heur)
 
 
 init_pt = np.array([[-1.0], [0.5], [0]])

@@ -4,7 +4,7 @@ from rps.utilities.transformations import *
 from rps.utilities.barrier_certificates import *
 from rps.utilities.misc import *
 from rps.utilities.controllers import *
-from setpos import setpos
+from set_pose import setpos
 
 import numpy as np
 import time
@@ -57,7 +57,6 @@ while np.linalg.norm(vel) >= 0.01:
     # Create single-integrator control inputs
     #dxi = single_integrator_position_controller(x_si, goal_point[:2, :], magnitude_limit=0.08)
     dxi = vel[:2, :]
-    print(dxi)
 
     # Create safe control inputs (i.e., no collisions)
     #dxi = si_barrier_cert(dxi, x_si)
@@ -68,7 +67,6 @@ while np.linalg.norm(vel) >= 0.01:
     r.step()
 
     vel = iterate_w_momentum(x, eta, df, vel, mu)
-    print(vel)
     time.sleep(0.01)
 time.sleep(10)
 # Always call this function at the end of your scripts!  It will accelerate the
